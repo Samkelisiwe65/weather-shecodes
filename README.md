@@ -1,1 +1,250 @@
-# weather-shecodes
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <title>my-weather-app</title>
+</head>
+<body>
+    <div class="weather-app"</div>
+    <header>
+        <style>
+            body{
+                background-color:#f9f7fe;
+            }
+            a{
+                color: #885df1;
+            }
+            .weather-app-city{
+                margin: 0;
+                font-size: 38px;
+                line-height:48px;
+            }
+            .weather-app-detail{
+                font-size: 48px;
+                line-height: 24px;
+                color: rgba(39,33,66,0.4);
+                font-weight: 500;
+            }
+            .weather-app-temperature-container{
+                display: flex;
+            }
+            .weather-app-temperature-unit{
+                margin-top: 16px;
+                font-size: 28px;
+            }
+            .weather-app-temperature{
+                font-size: 88px;
+                margin-left: 22px;
+                font-weight: bold;
+            }
+            .weather-app-icon{
+                font-size: 44px;
+                margin-top: 22px;
+                display: flex;
+            }
+            .weather-app-detail {
+                color:#f65282;
+                font-weight: bold;
+            }
+            header{
+                border-bottom: 1px solid #f9f7fe;
+                padding: 0 0 30px 0;
+            }
+            footer{
+                border-top: 1px solid #f9f7fe;
+                padding: 30px 0 0 0;
+                text-align: center;
+                font-size: 14px;
+                font-weight: 500;
+                color:black;
+                
+            }
+        
+           .weather-app{
+                background-color:white;
+                max-width:600px ;
+                margin: 45px auto;
+                box-shadow: 0 30px 50px rgba(65,50,100,0.08);
+                padding: 30px;
+                border-radius: 16px;
+            }
+
+            .weather-app-detail {
+             font-size: 16px;
+            color: #333; /* Ensure the text is visible */
+            }
+
+            .search-form-input{
+                background-color: #f9f7fe;
+                border:none;
+                border-radius: 16px;
+                width: 80%;
+                padding:15px 20px;
+                font-size: 14px;
+            }
+            .search-form-button{
+                background:#885df1;
+                padding: 15px 30px;
+                border: none;
+                font-size: 16px;
+                margin-left: 5px;
+                border-radius:6px;
+                color: white;
+            }
+            main{
+                padding: 30px 0;
+            }
+           /* .weather-app-data{
+                display: flex;
+                justify-content: space-between;
+            }*/
+            .description{
+                margin: 0;
+                font-size: 70px;
+            }
+
+
+       .weather-forecast {
+        margin-top: 80px;
+        display: flex;
+        justify-content: center;
+        background-color: #f9f7fe;
+        border-radius: 16px;
+        padding: 15px;
+    }
+
+    .forecast-day {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .forecast-day strong {
+        display: block;
+        margin-top: 5px;
+    }
+
+    .forecast-icon {
+        font-size: 28px;
+        margin: 5px 0;
+    }
+
+    #current-time {
+    font-size: 20px;
+    color: #333;
+}
+
+</style>
+
+    
+        <form class="search-form" id="search-form">
+            <input type= "search" placeholder="Enter a city...." required id="search-form-input" class="search-form-input"/>
+            <input type="submit" value="search" class="search-form-button"/>
+        </form>
+    </header>
+
+    <main>
+        <div class="weather-app-data" />
+        <div>
+        <h1 class="weather-app-city" id="city"></h1>
+        <p id="current-time" class="weather-app-detail"></p>
+        <p class="weather=app=detail"> <span id="description"></span>
+
+            <br/>
+            Humidity:<strong id="humidity"></strong>, wind:<strong id="wind-speed"></strong>
+        </p>
+        </div>
+        <div>
+            <div class="weather-app-temperature-container">
+            <div class="weather-app-icon">⛅</div>
+            <div class="weather-app-temperature" id="temperature"></div>
+             <div class="weather-app-temperature-unit">°C</div>
+        </div>
+        <div id="forecast" class="weather-forecast"></div>
+        </main>
+    
+    <footer>
+        This project was coded by 
+        <a href="https://github.com/Samkelisiwe65" target="_blank">Samukelisiwe Biyela</a> ,is 
+        <a href="https://github.com/Samkelisiwe65/samubiyela-weather-app/tree/main" target="_blank">opened source on GitHub</a>and 
+        <a href="https://vercel.com/samukelisiwe-biyelas-projects"target="_blank">hosted on Vercel</a>
+    </footer>
+    <script>
+        function refreshWeather(response) {
+            let temperatureElement = document.querySelector("#temperature");
+            let cityElement = document.querySelector("#city");
+            let descriptionElement = document.querySelector("#description");
+            let humidityElement = document.querySelector("#humidity");
+            let windElement = document.querySelector("#wind-speed");
+            temperatureElement.innerHTML = Math.round(response.data.main.temp);
+            descriptionElement.innerHTML = response.data.weather[0].description;
+            humidityElement.innerHTML = `${response.data.main.humidity}%`;
+            windElement.innerHTML = `${response.data.wind.speed} km/h`;
+        }
+
+        function updateTime() {
+            let now = new Date();
+            let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            let day = days[now.getDay()];
+            let hours = now.getHours().toString().padStart(2, "0");
+            let minutes = now.getMinutes().toString().padStart(2, "0");
+            let formattedTime = `${day} ${hours}:${minutes};
+
+        }
+
+        function searchCity(city) {
+            let apiKey = "43de0b07896346afb5b4f4f011771529";
+            let apiUrl = https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+            axios.get(apiUrl).then(refreshWeather);
+        }
+
+        function handlerSubmit(event) {
+            event.preventDefault();
+            let searchInput = document.querySelector("#search-form-input");
+            let cityElement = document.querySelector("#city");
+            cityElement.innerHTML = searchInput.value;
+            searchCity(searchInput.value);
+        }
+         let searchFormElement = document.querySelector("#search-form");
+         searchFormElement.addEventListener("submit", handlerSubmit);
+
+        function refreshForecast(response) {
+        let forecastElement = document.querySelector("#forecast");
+        forecastElement.innerHTML = ""; // Clear previous forecast
+
+        let forecastData = response.data.list.filter((item) =>
+        item.dt_txt.includes("12:00:00")
+    );
+
+        forecastData.forEach((forecast) => {
+        let day = new Date(forecast.dt_txt).toLocaleDateString("en-US", {
+            weekday: "short",
+        });
+        let icon = forecast.weather[0].icon;
+        let temperature = Math.round(forecast.main.temp);
+
+        forecastElement.innerHTML += `
+            <div class="forecast-day">
+                <div>${day}</div>
+                <div class="forecast-icon">
+                    <img src="http://openweathermap.org/img/wn/${icon}@2x.png" alt="${forecast.weather[0].description}" />
+                </div>
+                <strong>${temperature}°C</strong>
+            </div>
+        `;
+    });
+}
+
+function searchCity(city) {
+    let apiKey = "43de0b07896346afb5b4f4f011771529";
+    let weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    let forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+    axios.get(weatherUrl).then(refreshWeather);
+    axios.get(forecastUrl).then(refreshForecast);
+}
+
+    </script>
+</body>
+</html>
